@@ -69,3 +69,5 @@ This toolkit can be used for a variety of use cases, some of which can be :
 1. To calculate idle time on the page and prompt chat. 
 2. Route to different invitations based on the user's click. 
 3. Prompt chat by detecting the user trying to leave the page or if they are looking at the contact details.
+
+Does this fit your use case? if not, email me at himanshu.sharma@makepositive.com for feature requests.
