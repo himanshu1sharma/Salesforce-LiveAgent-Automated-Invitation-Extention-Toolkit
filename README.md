@@ -1,6 +1,6 @@
 # Salesforce LiveAgent Automated Invitation Extention Toolkit
 
-This toolkit can be used to add custom rules on DOM elements to extent to capabilities of salesforce live agent automated invitations. 
+This toolkit can be used to add custom rules on DOM elements to extend the capabilities of salesforce live agent automated invitations. 
 
 It works on the principle of setting a custom variable on an automated invitation rule to true and show the chat. This can be used to show multiple invitation on a single page bound to different DOM Element. It is optimised to remove all event listeners when the chat has been triggered for better performance. 
 
