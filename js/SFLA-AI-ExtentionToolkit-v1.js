@@ -30,17 +30,17 @@ __liveAgentArray.prototype.removeListeners = function(liveAgentVarName) {
 }
 
 var eventsArray = ['click',
-		   'contextmenu',
-		   'dblclick',
-		   'mousedown',
-		   'mouseenter',
-		   'mouseleave',
-		   'mousemove',
-		   'mouseover',
-		   'mouseout',
-		   'mouseup',
-		   'hoverDelay',
-		   'hoverDelayStrict'];
+				   'contextmenu',
+				   'dblclick',
+				   'mousedown',
+				   'mouseenter',
+				   'mouseleave',
+				   'mousemove',
+				   'mouseover',
+				   'mouseout',
+				   'mouseup',
+				   'hoverDelay',
+				   'hoverDelayStrict'];
 
 var __liveAgentObject = function(element,liveAgentVar,event,delay) {
 	this.liveAgentVar = liveAgentVar;
@@ -51,6 +51,9 @@ var __liveAgentObject = function(element,liveAgentVar,event,delay) {
 	if(eventsArray.indexOf(event) != -1) this.addEventListenerFn();
 }
 
+__liveAgentObject.prototype.getElement = function() {	
+	return this.element;
+}
 __liveAgentObject.prototype.handlerFn = function(ev) {	
 	var la = _lArrayInstance.getById(ev.srcElement.getAttribute("liveAgentId") || ev.srcElement.getAttribute("liveagentid"));
 	ev.srcElement.getAttribute("hoverDelayStrict") ? 
@@ -86,23 +89,30 @@ __liveAgentObject.prototype.destruct = function() {
 }
 
 __liveAgentObject.prototype.addAdditionalHoverListeners = function() {
+	if(this.ALDeployed) return;
+	this.ALDeployed = true;
 	var elem = this.element;
 	var IDLE_TIMEOUT = elem.getAttribute("hoverDelay");
 	var _idleSecondsCounter = 0;
 
 	elem.addEventListener('mouseleave',mouseoutIntervalFn);
 
-	function mouseoutIntervalFn() {
+	function mouseoutIntervalFn(ev) {
 	    _idleSecondsCounter = 0;
-	    elem.removeEventListener('mouseleave',mouseoutIntervalFn);
+	    removeAddListeners(ev.srcElement);
 	    clearInterval(timerInterval);
+	    _lArrayInstance.getById(ev.srcElement.getAttribute("liveAgentId") || ev.srcElement.getAttribute("liveagentid")).ALDeployed = false;
 	};
+
+	function removeAddListeners(elem) {
+		elem.removeEventListener('mouseleave',mouseoutIntervalFn);
+	}
 	
 	var timerInterval = window.setInterval(function(){
 		_idleSecondsCounter++;
 	    if (_idleSecondsCounter >= IDLE_TIMEOUT) {
 	        clearInterval(timerInterval);
-	        mouseoutIntervalFn();
+	        removeAddListeners(_lArrayInstance.getById(elem.getAttribute("liveAgentId") || elem.getAttribute("liveagentid")).getElement());
 	        _lArrayInstance.getById(elem.getAttribute("liveAgentId") || elem.getAttribute("liveagentid")).successfulEvent();
 	     }
 
@@ -110,14 +120,16 @@ __liveAgentObject.prototype.addAdditionalHoverListeners = function() {
 }
 
 __liveAgentObject.prototype.addAdditionalHoverStrictListeners = function(){
+	if(this.ALDeployed) return;
+	this.ALDeployed = true;
 	var elem = this.element;
 	var IDLE_TIMEOUT = elem.getAttribute("hoverDelayStrict");
 	var _idleSecondsCounter = 0;
 
-	elem.addEventListener('click',clickIntervalFn,true);
-	elem.addEventListener('mousemove',mousemoveIntervalFn,true);
-	elem.addEventListener('keypress',keypressIntervalFn,true);
-	elem.addEventListener('mouseleave',mouseoutIntervalFn,true);
+	elem.addEventListener('click',clickIntervalFn);
+	elem.addEventListener('mousemove',mousemoveIntervalFn);
+	elem.addEventListener('keypress',keypressIntervalFn);
+	elem.addEventListener('mouseleave',mouseoutIntervalFn);
 
 	function clickIntervalFn() {
 	    _idleSecondsCounter = 0;
@@ -129,21 +141,27 @@ __liveAgentObject.prototype.addAdditionalHoverStrictListeners = function(){
 	    _idleSecondsCounter = 0;
 	};
 
-	function mouseoutIntervalFn() {
+	function mouseoutIntervalFn(ev) {
 	    _idleSecondsCounter = 0;
-	    elem.removeEventListener('click',clickIntervalFn);
+	    removeAddListeners(ev.srcElement);
+	    clearInterval(timerInterval);
+	    _lArrayInstance.getById(ev.srcElement.getAttribute("liveAgentId") || ev.srcElement.getAttribute("liveagentid")).ALDeployed = false;
+	};
+	
+	function removeAddListeners(elem) {
+		elem.removeEventListener('click',clickIntervalFn);
 	    elem.removeEventListener('mousemove',mousemoveIntervalFn);
 	    elem.removeEventListener('keypress',keypressIntervalFn);
 	    elem.removeEventListener('mouseleave',mouseoutIntervalFn);
-	    clearInterval(timerInterval);
-	};
+	}
 	
+
 	var timerInterval = window.setInterval(function(){
 		_idleSecondsCounter++;
 	    if (_idleSecondsCounter >= IDLE_TIMEOUT) {
 	        clearInterval(timerInterval);
-	        mouseoutIntervalFn();
-	        _lArrayInstance.getById(elem.getAttribute("liveAgentId") || elem.getAttribute("liveagentid")).successfulEvent();
+	        removeAddListeners(_lArrayInstance.getById(elem.getAttribute("liveAgentId") || elem.getAttribute("liveagentid")).getElement());
+	     	_lArrayInstance.getById(elem.getAttribute("liveAgentId") || elem.getAttribute("liveagentid")).successfulEvent();
 	     }
 
 	}, 1000);
@@ -162,13 +180,13 @@ window.onload = function() {
     	if(attrValue && attrValue.split(',')[0] && attrValue.split(',')[1]) {
 	    	if(attrValue.split(',')[2])
 	    		_lArrayInstance.addElem(new __liveAgentObject(elemArray[elem],
-		    					attrValue.split(',')[0],
-								attrValue.split(',')[1],
-									attrValue.split(',')[2]));
+		    									attrValue.split(',')[0],
+													attrValue.split(',')[1],
+														attrValue.split(',')[2]));
 	    	else
 	    		_lArrayInstance.addElem(new __liveAgentObject(elemArray[elem],
-		    					attrValue.split(',')[0],
-	   							attrValue.split(',')[1]));
+		    									attrValue.split(',')[0],
+	   												attrValue.split(',')[1]));
     	}
     }
 }
