@@ -45,19 +45,19 @@ var eventsArray = ['click',
 var __liveAgentObject = function(element,liveAgentVar,event,delay) {
 	this.liveAgentVar = liveAgentVar;
 	this.element = element;
-	this.elemId = element.getAttribute("id") || element.getAttribute("Id");
+	this.elemId = element.getAttribute("liveAgentId") || element.getAttribute("liveagentid");
 	this.event = event;
 	delay ? this.delay = delay : false;
 	if(eventsArray.indexOf(event) != -1) this.addEventListenerFn();
 }
 
 __liveAgentObject.prototype.handlerFn = function(ev) {	
-	var la = _lArrayInstance.getById(ev.srcElement.getAttribute("id") || ev.srcElement.getAttribute("Id"));
+	var la = _lArrayInstance.getById(ev.srcElement.getAttribute("liveAgentId") || ev.srcElement.getAttribute("liveagentid"));
 	ev.srcElement.getAttribute("hoverDelayStrict") ? 
 		la.addAdditionalHoverStrictListeners(): 
 			(ev.srcElement.getAttribute("hoverDelay") ? 
 				la.addAdditionalHoverListeners(): 
-					_lArrayInstance.getById(ev.srcElement.getAttribute("id") || ev.srcElement.getAttribute("Id")).successfulEvent());
+					_lArrayInstance.getById(ev.srcElement.getAttribute("liveAgentId") || ev.srcElement.getAttribute("liveagentid")).successfulEvent());
 };
 
 __liveAgentObject.prototype.successfulEvent = function() {	
@@ -103,7 +103,7 @@ __liveAgentObject.prototype.addAdditionalHoverListeners = function() {
 	    if (_idleSecondsCounter >= IDLE_TIMEOUT) {
 	        clearInterval(timerInterval);
 	        mouseoutIntervalFn();
-	        _lArrayInstance.getById(elem.getAttribute("id") || elem.getAttribute("Id")).successfulEvent();
+	        _lArrayInstance.getById(elem.getAttribute("liveAgentId") || elem.getAttribute("liveagentid")).successfulEvent();
 	     }
 
 	}, 1000);
@@ -143,7 +143,7 @@ __liveAgentObject.prototype.addAdditionalHoverStrictListeners = function(){
 	    if (_idleSecondsCounter >= IDLE_TIMEOUT) {
 	        clearInterval(timerInterval);
 	        mouseoutIntervalFn();
-	        _lArrayInstance.getById(elem.getAttribute("id") || elem.getAttribute("Id")).successfulEvent();
+	        _lArrayInstance.getById(elem.getAttribute("liveAgentId") || elem.getAttribute("liveagentid")).successfulEvent();
 	     }
 
 	}, 1000);
@@ -157,6 +157,7 @@ window.onload = function() {
 	if(__oldOnLoad) __oldOnLoad();
     var elemArray = document.querySelectorAll('[sfLiveAgent]');
     for(var elem = 0 ; elem < elemArray.length ; elem ++ ) {    
+    	elemArray[elem].setAttribute('liveAgentId','LATK' + elem);
     	var attrValue = elemArray[elem].getAttribute("sfLiveAgent");
     	if(attrValue && attrValue.split(',')[0] && attrValue.split(',')[1]) {
 	    	if(attrValue.split(',')[2])
