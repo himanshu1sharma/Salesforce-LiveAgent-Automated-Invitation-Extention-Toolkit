@@ -59,7 +59,7 @@ Param2 : The event on which the chat should be started (hoverDelay or hoverDelay
 Param3 : The time delay(in seconds) after which the chat should be prompted.
 
 ```html
-<p id='liveAgentTkDiv' sfLiveAgent="ShowChat,hoverDelay,5"> keep mouse on this text for 5 seconds would prompt live agent chat</p>
+<p id='liveAgentTkDiv' sfLiveAgent="ShowChat,hoverDelay,5"> keep mouse on this text for 5 seconds to prompt live agent chat</p>
 ```
 
 Note : When a chat has been prompted for an invitation, all the event listeners are removed for that chat variable.
