@@ -30,17 +30,17 @@ __liveAgentArray.prototype.removeListeners = function(liveAgentVarName) {
 }
 
 var eventsArray = ['click',
-				   'contextmenu',
-				   'dblclick',
-				   'mousedown',
-				   'mouseenter',
-				   'mouseleave',
-				   'mousemove',
-				   'mouseover',
-				   'mouseout',
-				   'mouseup',
-				   'hoverDelay',
-				   'hoverDelayStrict'];
+		   'contextmenu',
+		   'dblclick',
+		   'mousedown',
+		   'mouseenter',
+		   'mouseleave',
+		   'mousemove',
+		   'mouseover',
+		   'mouseout',
+		   'mouseup',
+		   'hoverDelay',
+		   'hoverDelayStrict'];
 
 var __liveAgentObject = function(element,liveAgentVar,event,delay) {
 	this.liveAgentVar = liveAgentVar;
@@ -161,13 +161,13 @@ window.onload = function() {
     	if(attrValue && attrValue.split(',')[0] && attrValue.split(',')[1]) {
 	    	if(attrValue.split(',')[2])
 	    		_lArrayInstance.addElem(new __liveAgentObject(elemArray[elem],
-		    									attrValue.split(',')[0],
-													attrValue.split(',')[1],
-														attrValue.split(',')[2]));
+		    					attrValue.split(',')[0],
+								attrValue.split(',')[1],
+									attrValue.split(',')[2]));
 	    	else
 	    		_lArrayInstance.addElem(new __liveAgentObject(elemArray[elem],
-		    									attrValue.split(',')[0],
-	   												attrValue.split(',')[1]));
+		    					attrValue.split(',')[0],
+	   							attrValue.split(',')[1]));
     	}
     }
 }
