@@ -73,4 +73,4 @@ This toolkit can be used for a variety of use cases, some of which can be :
 3. Prompt chat by detecting the user trying to leave the page or if they are looking at the contact details section.
 and more...
 
-Does this fit your use case? if not, email me at himanshu.sharma@makepositive.com for feature requests.
+Does this fit your use case? if not, email me at himanshu.313@gmail.com for feature requests.
